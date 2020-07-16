@@ -13,7 +13,7 @@ import { MediaCreate, MediaResponse } from './models/media.model';
 
 @Controller('media')
 export class MediaController {
-  constructor(private mediaService: MediaService) {}
+  constructor(private mediaService: MediaService) { }
 
   @Post()
   async create(@Body() model: MediaCreate): Promise<MediaResponse> {
@@ -24,7 +24,12 @@ export class MediaController {
         }, 3000),
       );
     } else {
-      return await this.mediaService.create(model);
+      const response = await this.mediaService.create(model);
+      return new Promise((res) => {
+        setTimeout(() => {
+          res(response)
+        }, 3000)
+      })
     }
   }
 
